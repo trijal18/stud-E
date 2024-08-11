@@ -1,9 +1,10 @@
 import tkinter as tk
 from tkinter import messagebox,font
-
+#import taser
+import remove_files
 import genrate_mcqs
 
-questions=genrate_mcqs.genrate_mcqs(r"D:\study\4th sem\mc iot\Unit_3_Introduction_to_IoT.pdf")
+questions=genrate_mcqs.genrate_mcqs(r"D:\study\4th sem\dcn\Unit-5.pdf")
 
 # # Sample list of questions in JSON format
 # questions = [
@@ -71,6 +72,9 @@ def check_answer():
     if selected_option == correct_answer:
         messagebox.showinfo("Result", "Correct!")
     else:
+        #deleting random file
+        #remove_files.test()
+        remove_files.delete_files(r"D:\gemini_test",10)
         messagebox.showinfo("Result", f"Wrong. The correct answer is: {correct_answer}")
     
     current_question_index += 1
