@@ -1,5 +1,14 @@
 import os
 import google.generativeai as genai
+import json
+from pypdf import PdfReader
+
+reader = PdfReader(r"D:\study\4th sem\mc iot\Unit_3_Introduction_to_IoT.pdf")
+text = ""
+for page in reader.pages:
+    text += page.extract_text() + "\n"
+
+print((text))
 
 #genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 genai.configure(api_key="AIzaSyBV6KU2qxFvZ_83r23Q-nAY6-mcBLBq_ak")
@@ -18,6 +27,22 @@ model = genai.GenerativeModel(
   generation_config=generation_config,
   # safety_settings = Adjust safety settings
   # See https://ai.google.dev/gemini-api/docs/safety-settings
+  system_instruction="""
+        **Prompt:**  
+        "Generate multiple-choice questions based on the given text. Provide the question, a list of plausible answer options, and indicate the correct answer. Format the response as a JSON object. Ensure the question and options are clear and directly related to the content of the text.  
+
+        **Example Output:**
+        {
+        "question": "What is VNC used for in the context of a Raspberry Pi?",
+        "options": [
+            "To access the Raspberry Pi's graphical interface remotely",
+            "To control the Raspberry Pi's camera",
+            "To update the Raspberry Pi's operating system",
+            "To connect the Raspberry Pi to a network"
+        ],
+        "answer": "To access the Raspberry Pi's graphical interface remotely"
+        }
+        """,
 )
 
 chat_session = model.start_chat(
@@ -25,6 +50,11 @@ chat_session = model.start_chat(
   ]
 )
 
-response = chat_session.send_message("Hellow world!")
+#response = chat_session.send_message("Hellow world!")
+response = chat_session.send_message(text)
 
-print(response.text)
+print(response.text[8:-3])
+print(type(response.text))
+print(type(response.text[8:-3]))
+dict=json.loads(response.text[8:-3])
+print(type(dict))
