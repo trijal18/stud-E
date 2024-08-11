@@ -11,7 +11,7 @@ for page in reader.pages:
 print((text))
 
 #genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-genai.configure(api_key="AIzaSyBV6KU2qxFvZ_83r23Q-nAY6-mcBLBq_ak")
+genai.configure(api_key=)
 
 # Create the model
 generation_config = {
@@ -50,11 +50,6 @@ chat_session = model.start_chat(
   ]
 )
 
-#response = chat_session.send_message("Hellow world!")
-response = chat_session.send_message(text)
+response = chat_session.send_message("Hellow world!")
 
-print(response.text[8:-3])
-print(type(response.text))
-print(type(response.text[8:-3]))
-dict=json.loads(response.text[8:-3])
-print(type(dict))
+print(response.text)
