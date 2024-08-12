@@ -4,7 +4,8 @@ from tkinter import messagebox,font
 import remove_files
 import genrate_mcqs
 
-questions=genrate_mcqs.genrate_mcqs(r"D:\study\4th sem\dcn\Unit-5.pdf")
+file_path=r"D:\study\4th sem\dcn\Unit-5.pdf"
+questions=genrate_mcqs.genrate_mcqs(file_path)
 
 # Sample list of questions in JSON format
 # questions = [
