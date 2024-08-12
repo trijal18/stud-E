@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox, font, filedialog
 import remove_files
+#import taser
 import genrate_mcqs
 
 # Initialize main application window
@@ -57,6 +58,7 @@ def update_timer():
     else:
         if timer_running:
             timer_running = False
+            #taser.taser(2)
             messagebox.showinfo("Time's Up!", "You ran out of time!")
             check_answer(skip=True)
 
@@ -71,6 +73,7 @@ def check_answer(skip=False):
         if selected_option == correct_answer:
             messagebox.showinfo("Result", "Correct!")
         else:
+            #taser.taser(1)
             messagebox.showinfo("Result", f"Wrong. The correct answer is: {correct_answer}")
     
     current_question_index += 1
