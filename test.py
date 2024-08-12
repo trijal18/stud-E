@@ -2,6 +2,11 @@ import os
 import google.generativeai as genai
 import json
 from pypdf import PdfReader
+from dotenv import load_dotenv
+
+load_dotenv()
+key = os.getenv("GEMINI_API_KEY")
+genai.configure(api_key=key)
 
 reader = PdfReader(r"D:\study\4th sem\mc iot\Unit_3_Introduction_to_IoT.pdf")
 text = ""
@@ -11,7 +16,6 @@ for page in reader.pages:
 print((text))
 
 #genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-genai.configure(api_key=)
 
 # Create the model
 generation_config = {
@@ -50,6 +54,11 @@ chat_session = model.start_chat(
   ]
 )
 
-response = chat_session.send_message("Hellow world!")
+response = chat_session.send_message(text)
 
 print(response.text)
+summary=chat_session.send_message("Give summary of given text")
+print(type(summary.text))
+def genrate_summary(file_path):
+    summary=""
+    return summary

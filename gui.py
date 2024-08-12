@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox, font, filedialog
+import genrate_mcqs  # Assuming this is the correct import for your project
 import remove_files
-import genrate_mcqs
+#import taser
 
 # Initialize main application window
 root = tk.Tk()
@@ -14,7 +15,8 @@ current_question_index = 0
 time_limit = 15  # Time limit per question in seconds
 time_remaining = time_limit
 timer_running = False
-questions = []
+questions = []  # Global variable for questions
+summary = ''  # Global variable for summary
 
 # Custom fonts
 question_font = font.Font(family="Helvetica", size=16, weight="bold")
@@ -78,36 +80,35 @@ def check_answer(skip=False):
     current_question_index += 1
     load_next_question()
 
-def start_quiz(file_path):
-    global questions
-    questions = genrate_mcqs.genrate_mcqs(file_path)
+def start_quiz():
     quiz_page()
 
-def show_summary(file_path):
+def show_summary():
     for widget in root.winfo_children():
         widget.destroy()
 
-    summary = genrate_mcqs.genrate_summary(file_path)
-    
     summary_label = tk.Label(root, text="Summary", bg="#f9f9f9", font=question_font)
     summary_label.pack(pady=10)
-    
+
     summary_text = tk.Text(root, wrap="word", bg="#f9f9f9", font=option_font)
     summary_text.insert(tk.END, summary)
     summary_text.config(state=tk.DISABLED)
     summary_text.pack(pady=10, padx=10, fill="both", expand=True)
 
-    start_quiz_button = tk.Button(root, text="Start Quiz", command=lambda: start_quiz(file_path), 
+    start_quiz_button = tk.Button(root, text="Start Quiz", command=start_quiz, 
                                   bg="#4CAF50", fg="white", font=("Helvetica", 14), padx=10, pady=5)
     start_quiz_button.pack(pady=20)
 
 def open_file():
+    global questions, summary
     file_path = filedialog.askopenfilename(
         title="Select PDF File",
         filetypes=[("PDF Files", "*.pdf")]
     )
     if file_path:
-        show_summary(file_path)
+        messagebox.showinfo("Genrating Summary please wait")
+        questions, summary = genrate_mcqs.genrate_content(file_path)
+        show_summary()
 
 def drag_and_drop_page():
     drag_label = tk.Label(root, text="Drag and drop a file here or click to browse", 
