@@ -6,7 +6,7 @@ import genrate_mcqs
 
 questions=genrate_mcqs.genrate_mcqs(r"D:\study\4th sem\dcn\Unit-5.pdf")
 
-# # Sample list of questions in JSON format
+# Sample list of questions in JSON format
 # questions = [
 #     {
 #         "question": "What is VNC used for in the context of a Raspberry Pi?",
@@ -41,9 +41,12 @@ questions=genrate_mcqs.genrate_mcqs(r"D:\study\4th sem\dcn\Unit-5.pdf")
 # ]
 
 current_question_index = 0
+time_limit = 15  # Time limit per question in seconds
+time_remaining = time_limit
+timer_running = False
 
 def load_next_question():
-    global current_question_index
+    global current_question_index, time_remaining, timer_running
     
     if current_question_index < len(questions):
         question_data = questions[current_question_index]
@@ -59,23 +62,43 @@ def load_next_question():
                                 bg="#f9f9f9", font=option_font, selectcolor="#add8e6", anchor="w")
             rb.pack(fill="both", padx=20, pady=5)
             option_buttons.append(rb)
+        
+        # Reset the timer and start it
+        time_remaining = time_limit
+        timer_running = True
+        update_timer()
 
     else:
         messagebox.showinfo("Quiz Finished", "You have completed the quiz!")
         root.quit()
 
-def check_answer():
-    global current_question_index
-    selected_option = var.get()
-    correct_answer = questions[current_question_index]["answer"]
+def update_timer():
+    global time_remaining, timer_running
     
-    if selected_option == correct_answer:
-        messagebox.showinfo("Result", "Correct!")
+    if time_remaining > 0:
+        timer_label.config(text=f"Time remaining: {time_remaining} seconds")
+        time_remaining -= 1
+        root.after(1000, update_timer)
     else:
-        #deleting random file
-        #remove_files.test()
-        remove_files.delete_files(r"D:\gemini_test",10)
-        messagebox.showinfo("Result", f"Wrong. The correct answer is: {correct_answer}")
+        if timer_running:
+            timer_running = False
+            #taser.taser(1.5)
+            messagebox.showinfo("Time's Up!", "You ran out of time!")
+            check_answer(skip=True)
+
+def check_answer(skip=False):
+    global current_question_index, timer_running
+    
+    timer_running = False  # Stop the timer when an answer is checked
+    if not skip:
+        selected_option = var.get()
+        correct_answer = questions[current_question_index]["answer"]
+        
+        if selected_option == correct_answer:
+            messagebox.showinfo("Result", "Correct!")
+        else:
+            #taser.taser(1)
+            messagebox.showinfo("Result", f"Wrong. The correct answer is: {correct_answer}")
     
     current_question_index += 1
     load_next_question()
@@ -93,6 +116,10 @@ option_font = font.Font(family="Helvetica", size=14)
 # Question label
 question_label = tk.Label(root, text="", bg="#f9f9f9", font=question_font, wraplength=450, justify="left")
 question_label.pack(pady=20)
+
+# Timer label
+timer_label = tk.Label(root, text="", bg="#f9f9f9", font=("Helvetica", 12), fg="red")
+timer_label.pack(pady=10)
 
 # Variable to store the selected option
 var = tk.StringVar()

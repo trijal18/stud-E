@@ -19,11 +19,11 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(SIGNAL_PIN, GPIO.OUT)
 
 
-def taser():
+def taser(t):
     #turning taset on
     GPIO.output(SIGNAL_PIN,1)
     #waiting secs
-    time.sleep(2)
+    time.sleep(t)
     #turing taser off
     GPIO.output(SIGNAL_PIN,0)
 
