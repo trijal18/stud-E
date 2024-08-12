@@ -108,6 +108,6 @@ def genrate_content(file_path):
 
     dict=json.loads(response.text[8:-3])
 
-    res_summary=chat_session.send_message("Give summary of given text and do not use *** in output.")
+    res_summary=chat_session.send_message("Please generate a detailed summary of the given text, ensuring that no asterisks (***) are included in the output text.")
     summary=res_summary.text
     return dict, summary
