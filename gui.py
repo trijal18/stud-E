@@ -106,7 +106,7 @@ def open_file():
         filetypes=[("PDF Files", "*.pdf")]
     )
     if file_path:
-        messagebox.showinfo("Genrating Summary please wait")
+        messagebox.showinfo("Hello","Genrating Summary please wait")
         questions, summary = genrate_mcqs.genrate_content(file_path)
         show_summary()
 
