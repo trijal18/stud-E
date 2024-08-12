@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox, font, filedialog
 import remove_files
-#import taser
 import genrate_mcqs
 
 # Initialize main application window
@@ -58,7 +57,7 @@ def update_timer():
     else:
         if timer_running:
             timer_running = False
-            #taser.taser(2)
+            #taser.taser(1.5)
             messagebox.showinfo("Time's Up!", "You ran out of time!")
             check_answer(skip=True)
 
@@ -84,13 +83,31 @@ def start_quiz(file_path):
     questions = genrate_mcqs.genrate_mcqs(file_path)
     quiz_page()
 
+def show_summary(file_path):
+    for widget in root.winfo_children():
+        widget.destroy()
+
+    summary = genrate_mcqs.genrate_summary(file_path)
+    
+    summary_label = tk.Label(root, text="Summary", bg="#f9f9f9", font=question_font)
+    summary_label.pack(pady=10)
+    
+    summary_text = tk.Text(root, wrap="word", bg="#f9f9f9", font=option_font)
+    summary_text.insert(tk.END, summary)
+    summary_text.config(state=tk.DISABLED)
+    summary_text.pack(pady=10, padx=10, fill="both", expand=True)
+
+    start_quiz_button = tk.Button(root, text="Start Quiz", command=lambda: start_quiz(file_path), 
+                                  bg="#4CAF50", fg="white", font=("Helvetica", 14), padx=10, pady=5)
+    start_quiz_button.pack(pady=20)
+
 def open_file():
     file_path = filedialog.askopenfilename(
         title="Select PDF File",
         filetypes=[("PDF Files", "*.pdf")]
     )
     if file_path:
-        start_quiz(file_path)
+        show_summary(file_path)
 
 def drag_and_drop_page():
     drag_label = tk.Label(root, text="Drag and drop a file here or click to browse", 

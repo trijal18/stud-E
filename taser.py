@@ -21,9 +21,9 @@ GPIO.setup(SIGNAL_PIN, GPIO.OUT)
 
 def taser(t):
     #turning taset on
-    GPIO.output(SIGNAL_PIN,1)
+    GPIO.output(SIGNAL_PIN,0)
     #waiting secs
     time.sleep(t)
     #turing taser off
-    GPIO.output(SIGNAL_PIN,0)
+    GPIO.output(SIGNAL_PIN,1)
 
